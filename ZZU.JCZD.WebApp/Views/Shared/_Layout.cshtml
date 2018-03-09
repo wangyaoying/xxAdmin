@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @* 引用的样式 *@
+    @Styles.Render("~/Content/bootstrap/css/bootstrap.css")
+    @Styles.Render("~/Content/bootstrap/bootstrap-tabel/bootstrap-table.css")
+    @Styles.Render("~/Content/css/Loyoutstyle.css")
+
+    @* 引用的脚本 *@
+    @Scripts.Render("~/Content/bootstrap/js/jquery.js")
+    @Scripts.Render("~/Content/bootstrap/js/bootstrap.js")
+    @Scripts.Render("~/Content/bootstrap/bootstrap-tabel/bootstrap-table.js")
+    @Scripts.Render("~/Content/bootstrap/bootstrap-tabel/bootstrap-table-zh-CN.js")
+    @Scripts.Render("~/Content/jqurey-validate/jquery.validate.js")
+    @Scripts.Render("~/Content/jqurey-validate/localization/messages_zh.js")
+
+    <meta name="description" content="The description of my page" />
+
+</head>
+<body style="padding-top:60px">
+    @{
+        bool role_manage = false;
+        bool user_manage = false;
+        bool comp_manage = false;
+        System.Data.DataTable actionList = ViewBag.allactionList;
+        foreach (System.Data.DataRow row in actionList.Rows)
+        {
+            if (row["controller"].ToString() == "Role")
+            {
+                role_manage = true;
+            }
+            if (row["controller"].ToString() == "UserInfo")
+            {
+                user_manage = true;
+            }
+            if (row["controller"].ToString() == "Company")
+            {
+                comp_manage = true;
+            }
+        }
+    }
+    <div class="container-fluid" style="height:60px;width:100% ;background-color: #303030;color:#00dfb9; position:fixed;top:0;z-index:1;font-size:20px">
+        <div class="row">
+            <div class="col-sm-3" href="javascirpt:void(0)" style="line-height:60px">
+                数控车床远程故障诊断系统
+            </div>
+            <ul class="pull-right col-sm-3 list-unstyled  ">
+                <li class="dropdown user" style="height:60px;line-height:60px">
+                    <div class="dropdown-toggle" href="javascirpt:void(0)" data-toggle="dropdown">
+                        <img style="width:40px;height:40px;" src="~/Content/imgs/users/user.jpg" alt="头像">@*头像暂时这样*@
+                        <span class="username">  欢迎您：@(ViewBag.loginUser.UserName)</span>
+                        <i class="icon-angle-down"></i>
+                    </div>
+                    <ul class="dropdown-menu">
+                        <li><a><i class="icon-user"></i>账号信息</a></li>
+                        <li><a href="/Login/LoginOut"><i class="icon-key"></i> 退出登录</a></li>
+                    </ul>
+                </li>
+                <!-- END USER LOGIN DROPDOWN -->
+
+            </ul>
+            <!-- END TOP NAVIGATION MENU -->
+        </div>
+    </div>
+    <!-- BEGIN LOGO -->
+
+
+
+
+
+    <div id="wrapper" class="toggled">
+
+        <!-- Sidebar -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" style="top:60px" id="sidebar-wrapper" role="navigation">
+            <ul class="nav sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        机床监控平台
+                    </a>
+                </li>
+                @if (role_manage)
+                {
+                    <li>
+                        <a href="/Role/Index"><i class="glyphicon glyphicon-lock"></i>&nbsp;权限管理</a>
+                    </li>
+                }
+              
+                @if (user_manage)
+                {
+                    <li>
+                        <a href="/UserInfo/Index"><i class="glyphicon glyphicon-user"></i>&nbsp; 用户管理</a>
+                    </li>
+                }
+               @if (comp_manage)
+               {
+                <li>
+                    <a href="/Company/Index"><i class="glyphicon glyphicon-credit-card"></i>&nbsp;客户公司管理</a>
+                </li>
+               }
+               
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-object-align-bottom"></i>&nbsp; 设备管理 <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li class="dropdown-header">&nbsp;设备管理</li>
+                        <li><a href="#">&nbsp;设备列表</a></li>
+                        <li><a href="#">&nbsp;添加设备</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-fire"></i>&nbsp; 设备监控 <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li class="dropdown-header">设备状态</li>
+                        <li><a href="#">当前状态</a></li>
+                        <li><a href="#">历史报警</a></li>
+                    </ul>
+                </li>}
+            </ul>
+        </nav>
+        <!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+        <div id="page-content-wrapper container-fluid">
+            <button type="button" class="hamburger is-open animated fadeInLeft" data-toggle="offcanvas">
+                <span class="hamb-top"></span>
+                <span class="hamb-middle"></span>
+                <span class="hamb-bottom"></span>
+            </button>
+            <div class="row" style="margin-left:40px">
+                <div class="col-sm-12">
+                    @RenderBody()
+                </div>
+            </div>
+
+
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var trigger = $('.hamburger'),
+
+               isClosed = false;
+
+            trigger.click(function () {
+                hamburger_cross();
+            });
+
+            function hamburger_cross() {
+
+                if (isClosed == true) {
+
+                    trigger.removeClass('is-closed');
+                    trigger.addClass('is-open');
+                    isClosed = false;
+                } else {
+
+
+                    trigger.removeClass('is-open');
+                    trigger.addClass('is-closed');
+                    isClosed = true;
+                }
+            }
+
+            $('[data-toggle="offcanvas"]').click(function () {
+                $('#wrapper').toggleClass('toggled');
+            });
+        });
+    </script>
+</body>
+
+</html>

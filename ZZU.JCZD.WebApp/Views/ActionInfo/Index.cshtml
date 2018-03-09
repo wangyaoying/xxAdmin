@@ -1,0 +1,205 @@
+﻿@using System.Data
+@using ZZU.JCZD.Model
+@{
+    ViewBag.Title = "权限管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+    var role_id = "@ViewBag.role_id";
+    var checkAll = 0;
+    $(function () {
+
+        SetChildSelected();
+        //点击保存权限
+        $('#btn_submit').click(SaveActions);
+        $('#btn_checkall').click(CheckAll);
+        //待修改
+        $('#btn_cancel').click(function () {
+            //重新发送一次请求
+            window.location.href = "/ActionInfo/Index?role_id=" + role_id;
+        })
+    })
+    //选中父级时设置子集全选中
+    function SetChildSelected() {
+        var par_ckbs = $('.parent_ckb');
+        $.each(par_ckbs, function (i) {
+            //获取对应索引对象
+            var par_ckb = par_ckbs.eq(i);
+            //赋予选中事件
+            $(par_ckb[0]).click(function () {
+                $(this).parent().parent().children('div').css('backgroundColor','red')
+                var action_ckbs = $(this).parent().parent().children('div').eq(0).children('label').children('.action_ckb');
+
+                //设置checkbox和span的选中属性
+                if ($(this).prop('checked') == true) {
+                    action_ckbs.prop('checked', true);
+                } else {
+                    action_ckbs.prop('checked', false);
+                }
+            })
+        })
+    }
+    //设置全选
+    function CheckAll() {
+
+        var div_controllers = $('.controls');
+        if (checkAll == 0) {
+            $.each(div_controllers, function (i) {
+                //获取下属所有的action_ckb
+                var action_ckbs = $(this).find('.action_ckb');
+                //设置全部被选中
+                $.each(action_ckbs, function (i) {
+                    $(action_ckbs.eq(i)).prop("checked", true);
+                })
+
+            })
+            checkAll = 1;
+        } else {
+            $.each(div_controllers, function (i) {
+                //获取下属所有的action_ckb
+                var action_ckbs = $(this).find('.action_ckb');
+                //设置全部被选中
+                $.each(action_ckbs, function (i) {
+                    $(action_ckbs.eq(i)).prop("checked", false);
+                })
+                //将span设置为checked
+
+            })
+            checkAll = 0;
+        }
+
+    }
+    //保存权限
+    function SaveActions() {
+        //点击之后获取所有的选中checkBox的value
+        var ckbs = $('.action_ckb');
+        var ids = "";
+        $.each(ckbs, function (i) {
+            //获取对应索引对象
+            var ckb = ckbs.eq(i);
+            //检测是否被选中
+            if (ckb[0].checked) {
+                //获取其父级菜单，获取其id,并加入到
+                var pars = $(ckb[0]).parents('.control-group');
+                //获取对应的父级checkbox
+                var par_ckb = $(pars[0]).find('.parent_ckb');
+                ids = ids + par_ckb.val() + ",";
+                ids = ids + ckb.val() + ",";
+            }
+
+        })
+        //获取当前选中的id
+        $.ajax({
+            url: '@Url.Action("Edit","ActionInfo")',
+            data: { idstr: ids, role_id: role_id },
+            type: 'Post',
+            datatype: 'Json',
+            beforeSend: function () {
+                //放置提示信息
+                $('#btn_submit').attr('disabled',true);
+                $('#msg').text('正在提交修改...');
+            },
+            success: function (data) {
+                $('#btn_submit').attr('disabled', false);
+                if (data.msg == "OK") {
+                    //返回角色列表
+
+                    $('#msg').text('修改成功');
+                   // window.location.href = "/Role/Index";
+                } else {
+                    $('#msg').text('修改失败');
+                    return false;
+                }
+
+            },
+            error: function (responseStr) {
+
+            }
+        })
+    }
+    //点击获取本行角色id
+    function Get_roleid() {
+        var tr = $(this);
+        var tds = tr.find("td");
+        if (tds.length > 0) {
+            var role_id = tds.eq(0).eq(0).text();
+            //发送ajax请求，将role_id发送过去，获取对应的权限
+            window.location.href = "/ActionInfo/Index?role_id=" + role_id;
+        }
+    }
+</script>
+<style>
+    html > body .td_font {
+        font-size: 12px;
+    }
+
+    html > body .td_roleid {
+        display: none;
+    }
+</style>
+<div class="container-fluid">
+    @*///////////////////////////导航栏*@
+    <div id="mynav" class="row">
+        @*每个页的页头*@
+        @*页头结束*@
+        @*页内导航*@
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home"></i>
+                <a href="javascirpt:void(0)">主页</a>
+                <i class="icon-angle-right"></i>
+            </li>
+            <li>
+                <a href="javascirpt:void(0)">系统管理</a>
+                <i class="icon-angle-right"></i>
+            </li>
+            <li><a href="javascirpt:void(0)">用户管理</a></li>
+        </ul>
+        @*页内导航结束*@
+    </div>
+
+    <div class="row" id="mypage">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div>
+                <div style="font-size:20px;"><i class="icon-user"></i>角色名称</div>
+            </div>
+
+            <div class="span10">
+                @foreach (var par_a in (List<ActionInfo>)ViewBag.parActionInfoList)
+                {
+                    <div class="control-group">
+
+                        <label class="control-label" style="font-size:20px;font:bolder;"><input type="checkbox" value="@par_a.Id" class="parent_ckb">@par_a.ActionName</label>
+
+                        <div class="controls" style="margin-left:20px;">
+                            @foreach (var actionInfo in (List<ActionInfo>)ViewBag.actionInfoList)
+                            {
+                                if (actionInfo.ControllerName == par_a.ActionName)
+                                {
+                                    var m_checkbox = "<label><input class='action_ckb' type='checkbox' value='" + actionInfo.Id + "'";
+                                    if (((List<Role_ActionInfo>)ViewBag.raList).Find(ra => ra.ActionInfo_Id == actionInfo.Id) != null)
+                                    {
+                                        m_checkbox += " checked";
+                                    }
+                                    m_checkbox += "/>" + actionInfo.ActionName + "</label>";
+                                    @Html.Raw(m_checkbox);
+                                }
+                            }
+                        </div>
+                    </div>
+                    <hr>
+                }
+                <div id="msg" style="color:orangered"></div>
+
+                <div style="margin-bottom:20px;">
+                    <a href="../Role/Index">返回角色列表</a>
+                    <button type="button" class="btn btn-success" id="btn_submit"><i class="icon-ok"></i>保存修改</button>
+                    <button class="btn btn-info" id="btn_checkall" type="button">全选</button>
+                    <a class="btn btn-default" id="btn_cancel" href="../Role/Index">取消</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+

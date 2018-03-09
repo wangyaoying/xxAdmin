@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="JCZDModelStoreContainer" CdmEntityContainer="JCZDEntities">
+    <EntitySetMapping Name="ActionInfo">
+      <EntityTypeMapping TypeName="JCZDModel.ActionInfo">
+        <MappingFragment StoreEntitySet="ActionInfo">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Action" ColumnName="Action" />
+          <ScalarProperty Name="Controller" ColumnName="Controller" />
+          <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+          <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Company">
+      <EntityTypeMapping TypeName="JCZDModel.Company">
+        <MappingFragment StoreEntitySet="Company">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CompName" ColumnName="CompName" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="CompEmail" ColumnName="CompEmail" />
+          <ScalarProperty Name="CompUrl" ColumnName="CompUrl" />
+          <ScalarProperty Name="Detail" ColumnName="Detail" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Role">
+      <EntityTypeMapping TypeName="JCZDModel.Role">
+        <MappingFragment StoreEntitySet="Role">
+          <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+          <ScalarProperty Name="Detail" ColumnName="Detail" />
+          <ScalarProperty Name="DelFlag" ColumnName="DelFlag" />
+          <ScalarProperty Name="CompId" ColumnName="CompId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Role_ActionInfo">
+      <EntityTypeMapping TypeName="JCZDModel.Role_ActionInfo">
+        <MappingFragment StoreEntitySet="Role_ActionInfo">
+          <ScalarProperty Name="ActionInfo_Id" ColumnName="ActionInfo_Id" />
+          <ScalarProperty Name="Role_Id" ColumnName="Role_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserInfo_Role">
+      <EntityTypeMapping TypeName="JCZDModel.UserInfo_Role">
+        <MappingFragment StoreEntitySet="UserInfo_Role">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserInfoId" ColumnName="UserInfoId" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserInfoSet">
+      <EntityTypeMapping TypeName="JCZDModel.UserInfoSet">
+        <MappingFragment StoreEntitySet="UserInfoSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="UserPass" ColumnName="UserPass" />
+          <ScalarProperty Name="SubTime" ColumnName="SubTime" />
+          <ScalarProperty Name="ModifTime" ColumnName="ModifTime" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Detail" ColumnName="Detail" />
+          <ScalarProperty Name="CompId" ColumnName="CompId" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="RealName" ColumnName="RealName" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="DelFlag" ColumnName="DelFlag" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,9 @@
+C:\Users\执笔流年\Desktop\using\doing\ZZU.JCZD\ZZU.JCZD.Model\bin\Debug\ZZU.JCZD.Model.dll.config
+C:\Users\执笔流年\Desktop\using\doing\ZZU.JCZD\ZZU.JCZD.Model\bin\Debug\ZZU.JCZD.Model.dll
+C:\Users\执笔流年\Desktop\using\doing\ZZU.JCZD\ZZU.JCZD.Model\bin\Debug\ZZU.JCZD.Model.pdb
+C:\Users\执笔流年\Desktop\using\doing\ZZU.JCZD\ZZU.JCZD.Model\bin\Debug\EntityFramework.dll
+C:\Users\执笔流年\Desktop\using\doing\ZZU.JCZD\ZZU.JCZD.Model\bin\Debug\EntityFramework.xml
+C:\Users\执笔流年\Desktop\using\doing\ZZU.JCZD\ZZU.JCZD.Model\bin\Debug\zh-Hans\EntityFramework.resources.dll
+C:\Users\执笔流年\Desktop\using\doing\ZZU.JCZD\ZZU.JCZD.Model\obj\Debug\ZZU.JCZD.Model.dll
+C:\Users\执笔流年\Desktop\using\doing\ZZU.JCZD\ZZU.JCZD.Model\obj\Debug\ZZU.JCZD.Model.pdb
+C:\Users\执笔流年\Desktop\using\doing\ZZU.JCZD\ZZU.JCZD.Model\obj\Debug\ZZU.JCZD.Model.csprojResolveAssemblyReference.cache

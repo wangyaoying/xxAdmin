@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="JCZDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ActionInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Action" Type="nvarchar" MaxLength="50" />
+          <Property Name="Controller" Type="nvarchar" MaxLength="50" />
+          <Property Name="ActionName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ControllerName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="200" />
+          <Property Name="CompEmail" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CompUrl" Type="nvarchar" MaxLength="50" />
+          <Property Name="Detail" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Detail" Type="nvarchar" MaxLength="200" />
+          <Property Name="DelFlag" Type="bit" Nullable="false" />
+          <Property Name="CompId" Type="int" Nullable="false" />
+          <Property Name="IsAdmin" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role_ActionInfo">
+          <Key>
+            <PropertyRef Name="ActionInfo_Id" />
+            <PropertyRef Name="Role_Id" />
+          </Key>
+          <Property Name="ActionInfo_Id" Type="int" Nullable="false" />
+          <Property Name="Role_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserInfo_Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserInfoId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserInfoSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="UserPass" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="SubTime" Type="datetime" />
+          <Property Name="ModifTime" Type="datetime" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="32" />
+          <Property Name="Detail" Type="nvarchar" MaxLength="200" />
+          <Property Name="CompId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="RealName" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="Image" Type="nvarchar" MaxLength="100" />
+          <Property Name="DelFlag" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="JCZDModelStoreContainer">
+          <EntitySet Name="ActionInfo" EntityType="Self.ActionInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role_ActionInfo" EntityType="Self.Role_ActionInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserInfo_Role" EntityType="Self.UserInfo_Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserInfoSet" EntityType="Self.UserInfoSet" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="JCZDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ActionInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Action" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Controller" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ActionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ControllerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CompEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CompUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Detail" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Detail" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DelFlag" Type="Boolean" Nullable="false" />
+          <Property Name="CompId" Type="Int32" Nullable="false" />
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role_ActionInfo">
+          <Key>
+            <PropertyRef Name="ActionInfo_Id" />
+            <PropertyRef Name="Role_Id" />
+          </Key>
+          <Property Name="ActionInfo_Id" Type="Int32" Nullable="false" />
+          <Property Name="Role_Id" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserInfo_Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserInfoId" Type="Int32" Nullable="false" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserInfoSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserPass" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SubTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifTime" Type="DateTime" Precision="3" />
+          <Property Name="Phone" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="Detail" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CompId" Type="Int32" Nullable="false" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="RealName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DelFlag" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="JCZDEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ActionInfo" EntityType="Self.ActionInfo" />
+          <EntitySet Name="Company" EntityType="Self.Company" />
+          <EntitySet Name="Role" EntityType="Self.Role" />
+          <EntitySet Name="Role_ActionInfo" EntityType="Self.Role_ActionInfo" />
+          <EntitySet Name="UserInfo_Role" EntityType="Self.UserInfo_Role" />
+          <EntitySet Name="UserInfoSet" EntityType="Self.UserInfoSet" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="JCZDModelStoreContainer" CdmEntityContainer="JCZDEntities">
+          <EntitySetMapping Name="ActionInfo">
+            <EntityTypeMapping TypeName="JCZDModel.ActionInfo">
+              <MappingFragment StoreEntitySet="ActionInfo">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="Controller" ColumnName="Controller" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Company">
+            <EntityTypeMapping TypeName="JCZDModel.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CompName" ColumnName="CompName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="CompEmail" ColumnName="CompEmail" />
+                <ScalarProperty Name="CompUrl" ColumnName="CompUrl" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Role">
+            <EntityTypeMapping TypeName="JCZDModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+                <ScalarProperty Name="DelFlag" ColumnName="DelFlag" />
+                <ScalarProperty Name="CompId" ColumnName="CompId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Role_ActionInfo">
+            <EntityTypeMapping TypeName="JCZDModel.Role_ActionInfo">
+              <MappingFragment StoreEntitySet="Role_ActionInfo">
+                <ScalarProperty Name="ActionInfo_Id" ColumnName="ActionInfo_Id" />
+                <ScalarProperty Name="Role_Id" ColumnName="Role_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInfo_Role">
+            <EntityTypeMapping TypeName="JCZDModel.UserInfo_Role">
+              <MappingFragment StoreEntitySet="UserInfo_Role">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserInfoId" ColumnName="UserInfoId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInfoSet">
+            <EntityTypeMapping TypeName="JCZDModel.UserInfoSet">
+              <MappingFragment StoreEntitySet="UserInfoSet">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserPass" ColumnName="UserPass" />
+                <ScalarProperty Name="SubTime" ColumnName="SubTime" />
+                <ScalarProperty Name="ModifTime" ColumnName="ModifTime" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+                <ScalarProperty Name="CompId" ColumnName="CompId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RealName" ColumnName="RealName" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="DelFlag" ColumnName="DelFlag" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

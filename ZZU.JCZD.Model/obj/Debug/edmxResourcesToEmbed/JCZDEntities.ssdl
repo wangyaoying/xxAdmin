@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="JCZDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="ActionInfo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Action" Type="nvarchar" MaxLength="50" />
+    <Property Name="Controller" Type="nvarchar" MaxLength="50" />
+    <Property Name="ActionName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ControllerName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Company">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CompName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Address" Type="nvarchar" MaxLength="200" />
+    <Property Name="CompEmail" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="CompUrl" Type="nvarchar" MaxLength="50" />
+    <Property Name="Detail" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RoleName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Detail" Type="nvarchar" MaxLength="200" />
+    <Property Name="DelFlag" Type="bit" Nullable="false" />
+    <Property Name="CompId" Type="int" Nullable="false" />
+    <Property Name="IsAdmin" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Role_ActionInfo">
+    <Key>
+      <PropertyRef Name="ActionInfo_Id" />
+      <PropertyRef Name="Role_Id" />
+    </Key>
+    <Property Name="ActionInfo_Id" Type="int" Nullable="false" />
+    <Property Name="Role_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserInfo_Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserInfoId" Type="int" Nullable="false" />
+    <Property Name="RoleId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserInfoSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="64" Nullable="false" />
+    <Property Name="UserPass" Type="nvarchar" MaxLength="64" Nullable="false" />
+    <Property Name="SubTime" Type="datetime" />
+    <Property Name="ModifTime" Type="datetime" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="32" />
+    <Property Name="Detail" Type="nvarchar" MaxLength="200" />
+    <Property Name="CompId" Type="int" Nullable="false" />
+    <Property Name="RoleId" Type="int" Nullable="false" />
+    <Property Name="RealName" Type="nvarchar" MaxLength="64" Nullable="false" />
+    <Property Name="Image" Type="nvarchar" MaxLength="100" />
+    <Property Name="DelFlag" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="JCZDModelStoreContainer">
+    <EntitySet Name="ActionInfo" EntityType="Self.ActionInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Role_ActionInfo" EntityType="Self.Role_ActionInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserInfo_Role" EntityType="Self.UserInfo_Role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserInfoSet" EntityType="Self.UserInfoSet" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

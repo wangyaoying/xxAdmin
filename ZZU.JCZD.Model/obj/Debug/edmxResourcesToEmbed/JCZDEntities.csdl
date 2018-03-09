@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="JCZDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="ActionInfo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Action" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Controller" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ActionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ControllerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Company">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CompName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="CompEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CompUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Detail" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Detail" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DelFlag" Type="Boolean" Nullable="false" />
+    <Property Name="CompId" Type="Int32" Nullable="false" />
+    <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Role_ActionInfo">
+    <Key>
+      <PropertyRef Name="ActionInfo_Id" />
+      <PropertyRef Name="Role_Id" />
+    </Key>
+    <Property Name="ActionInfo_Id" Type="Int32" Nullable="false" />
+    <Property Name="Role_Id" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserInfo_Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserInfoId" Type="Int32" Nullable="false" />
+    <Property Name="RoleId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserInfoSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserPass" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="SubTime" Type="DateTime" Precision="3" />
+    <Property Name="ModifTime" Type="DateTime" Precision="3" />
+    <Property Name="Phone" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+    <Property Name="Detail" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="CompId" Type="Int32" Nullable="false" />
+    <Property Name="RoleId" Type="Int32" Nullable="false" />
+    <Property Name="RealName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="DelFlag" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="JCZDEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ActionInfo" EntityType="Self.ActionInfo" />
+    <EntitySet Name="Company" EntityType="Self.Company" />
+    <EntitySet Name="Role" EntityType="Self.Role" />
+    <EntitySet Name="Role_ActionInfo" EntityType="Self.Role_ActionInfo" />
+    <EntitySet Name="UserInfo_Role" EntityType="Self.UserInfo_Role" />
+    <EntitySet Name="UserInfoSet" EntityType="Self.UserInfoSet" />
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,401 @@
+﻿@{
+    ViewBag.Title = "角色管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    @*///////////////////////////导航栏*@
+    <div id="mynav" class="row">
+        @*每个页的页头*@
+        @*页头结束*@
+        @*页内导航*@
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home"></i>
+                <a href="javascirpt:void(0)">主页</a>
+                <i class="icon-angle-right"></i>
+            </li>
+            <li>
+                <a href="javascirpt:void(0)">系统管理</a>
+                <i class="icon-angle-right"></i>
+            </li>
+            <li><a href="javascirpt:void(0)">权限配置</a></li>
+        </ul>
+        @*页内导航结束*@
+    </div>
+
+    <div class="row" id="mypage">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div>
+                <!--角色列表-->
+                <div class="x_content">
+                    <div id="toolbar">
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <div class="btn-group col-sm-12">
+                                    <button id="btn_addrole" type="button" class="btn btn-success" data-toggle="modal" data-target="#myaddModal">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+                                    </button>
+                                    <button id="btn_editrole" type="button" class="btn btn-info" data-toggle="modal" data-target="#myeditModal">
+                                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
+                                    </button>
+                                    <button id="btn_deleterole" type="button" class="btn btn-danger">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="searchRole" id="btnSearch">筛选</label>
+                                <input type="text" class="form-control" id="searchRole" placeholder="角色名">
+                            </div>
+                        </form>
+                    </div>
+                    <table id="table"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- 添加角色的modal -->
+    <div class="modal fade" id="myaddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">添加角色</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form class="form-horizontal form-label-left center-block" id="addRoleForm">
+                        <div class="item form-group">
+                            <label class="control-label  col-md-3 col-sm-3 col-xs-12" for="rolename">
+                                角色名称
+                            </label>
+                            <div class="col-md-5 col-sm-6 col-xs-12">
+                                <input id="rolename" class="form-control col-md-7 col-xs-12" name="rolename" placeholder="请输入角色名称" type="text">
+                            </div>
+                        </div>
+
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="company">
+                                公司
+                            </label>
+                            <div class="col-md-5 col-sm-6 col-xs-12">
+                                <select id="company" class="form-control col-md-7 col-xs-12">
+                                    @{
+                                        var compList = ViewBag.CompList;
+                                        foreach (ZZU.JCZD.Model.Company item in compList)
+                                        {
+                                            <option value="@item.Id">@item.CompName</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="detail">
+                                角色描述
+                            </label>
+                            <div class="col-md-5 col-sm-6 col-xs-12">
+                                <input id="detail" class="form-control col-md-7 col-xs-12" name="detail" placeholder="请输入角色描述" type="text">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-success" id="btn_add_role_model">添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end 添加角色的modal -->
+    <!-- 修改角色的modal -->
+    <div class="modal fade" id="myeditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">修改角色</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal form-label-left" id="editRoleForm">
+                        <div class="item form-group">
+                            <label class="control-label  col-md-3 col-sm-3 col-xs-12" for="editid">
+                                编号  <span>*</span>
+                            </label>
+                            <div class="col-md-5 col-sm-6 col-xs-12">
+                                <input id="editid" class="form-control col-md-7 col-xs-12" name="editid" type="text" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label  col-md-3 col-sm-3 col-xs-12" for="editrolename">
+                                角色名称  <span>*</span>
+                            </label>
+                            <div class="col-md-5 col-sm-6 col-xs-12">
+                                <input id="editrolename" class="form-control col-md-7 col-xs-12" name="editrolename" type="text">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="company">
+                                公司
+                            </label>
+                            <div class="col-md-5 col-sm-6 col-xs-12">
+                                <select id="editcompany" class="form-control col-md-7 col-xs-12" disabled>
+                                    @{
+                                        compList = ViewBag.CompList;
+                                        foreach (ZZU.JCZD.Model.Company item in compList)
+                                        {
+                                            <option value="@item.Id">@item.CompName</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="editdetail">
+                                角色描述 <span>*</span>
+                            </label>
+                            <div class="col-md-5 col-sm-6 col-xs-12">
+                                <input id="editdetail" class="form-control col-md-7 col-xs-12" name="editdetail" type="text">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a id="editActionInfo">编辑角色权限</a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+
+                    <button type="button" class="btn btn-success" id="btn_edit_role_model">确定修改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end 修改角色的modal -->
+@section scripts{
+
+    <script>
+        //加载角色列表
+        $(function () {
+            var datas=[];
+            $.post('/Role/GetRole',{},function(data){
+                datas=data;
+            })
+            $('#table').bootstrapTable({
+                url: '../Role/GetRole',       //请求后台的URL（*）
+                method: 'post',                      //请求方式（*）
+                toolbar: '#toolbar',                //工具按钮用哪个容器
+                //striped: true,                      //是否显示行间隔色
+                ////////////////////////3.这里修改
+                cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true,                   //是否显示分页（*）
+                sortable: false,                     //是否启用排序
+                sortOrder: "asc",                   //排序方式
+                //queryParams: oTableInit.queryParams,//传递参数（*）
+                sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [5, 10, 15, 20],        //可供选择的每页的行数（*）
+                search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                strictSearch: true,
+                showColumns: false,                  //是否显示所有的列
+                showRefresh: false,                  //是否显示刷新按钮
+                minimumCountColumns: 2,             //最少允许的列数
+                clickToSelect: true,                //是否启用点击选中行
+                height: 570,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                uniqueId: "Id",                     //每一行的唯一标识，一般为主键列
+                showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                    //是否显示详细视图
+                detailView: false,                   //是否显示父子表
+
+                columns: [{
+                    checkbox: true
+                }, {
+                    field: 'RoleName',
+                    title: '角色名'
+                }, {
+                    field: 'Detail',
+                    title: '描述'
+                }
+                ]
+            });
+
+           var $table = $('#table');
+            //////////////////////////////////////////
+         
+            var $btndeleterole = $('#btn_deleterole');
+
+            //////////////////////////////添加角色
+            var $btnAddRoleModel = $('#btn_add_role_model');
+            //表单验证的方法
+            function valAddContent() {
+                return $("#addRoleForm").validate({
+
+                    rules: {
+                        rolename: {
+                            required: true,
+                            minlength: 1,
+                            maxlength: 8
+                        },
+                        detail: {
+                            required: true,
+                            minlength: 2,
+                            maxlength: 8
+                        },
+                    }
+                }).form();
+            }
+
+            //点击按钮添加角色
+            //总公司登陆
+            if(@ViewBag.compId==='1'){
+
+            }else{
+                //客户公司登陆
+                $('#company').val(@ViewBag.compId);
+                $('#company').attr('disabled',true);
+            }
+            $btnAddRoleModel.click(function () {
+                var companyId=$('#company').val();
+                var rolename = $('#rolename').val();
+                var detail = $('#detail').val();
+                if (valAddContent()) {
+                    $.post("../Role/AddRole", { rolename: rolename, detail: detail,companyId:companyId}, function (res) {
+                        if (res === 'ok') {
+                            $("#myaddModal").modal('toggle');
+                            alert('添加成功');
+                            $table.bootstrapTable('refresh');
+                        }
+                        else if (res === 'ex') {
+                            alert('角色名已存在！')
+                        } else  {
+                            alert('添加失败');
+                        }
+                    });
+                }
+            });
+            //////////////////////////////添加角色 end
+
+            //////////////////////////////修改角色
+            //点击修改弹出motel，展示角色信息
+            var $btnEditRole = $('#btn_editrole');
+            $btnEditRole.click(function () {
+                var role = $table.bootstrapTable('getAllSelections');
+                if (role.length === 0) {
+                    alert('请选择要修改的角色');
+                    return false;
+                }
+                else {
+                    $('#editid').val(role[0].Id);
+                    $('#editrolename').val(role[0].RoleName);
+                    $('#editcompany').val(role[0].CompId);
+                    $('#editdetail').val(role[0].Detail);
+                }
+
+            })
+
+
+            //修改角色信息
+            var $btnEditRoleModel = $('#btn_edit_role_model');
+            function valEditContent() {
+                return $("#editRoleForm").validate({
+                    rules: {
+                        editrolename: {
+                            required: true,
+                            minlength: 1,
+                            maxlength: 8
+                        }
+
+                    },
+                    messages: {
+                        rolename: {
+                            required: "请输入角色名",
+                            minlength: "角色由2~8个字符组成"
+                        },
+                    }
+                }).form();
+            }
+
+            //--------------hererererererererererer
+            $btnEditRoleModel.click(function () {
+                if (valEditContent()) {
+
+                    var rolename = $('#editrolename').val();
+                    var id = $('#editid').val();
+                    var detail = $('#editdetail').val();
+                    $.post("../Role/EditRole", {  rolename: rolename, detail: detail, id: id }, function (res) {
+                        if (res === 'ok') {
+                            //$(".alert").alert('close')
+                            $("#myeditModal").modal('toggle');
+                            alert('修改成功');
+                            $table.bootstrapTable('refresh');
+                        }
+                        else {
+                            alert('修改失败');
+                        }
+                    });
+                }
+            });
+            //////////////////////////////修改角色 end
+            //////////////////////////////删除角色
+            var $btnDeleteRole = $('#btn_deleterole');
+            $btnDeleteRole.click(function () {
+                var roles = $table.bootstrapTable('getAllSelections');
+                if (roles.length === 0) {
+                    alert('请选择要删除的角色');
+                    return false;
+                } else {
+                    if (!confirm("确定删除这些数据吗？")) {
+                        return false;
+                    } else {
+                        var idArr = [];
+                        for (var i = 0; i < roles.length; i++) {
+                            idArr.push(roles[i].Id);
+                        }
+                        $.post("../Role/DeleteRoles", { ids: idArr.join(',') }, function (res) {
+                            if (res === 'ok') {
+                                $(".alert").alert('close')
+                                alert('删除成功');
+                                $table.bootstrapTable('refresh');
+                            }
+                            else {
+                                alert('删除失败');
+                            }
+                        });
+                    }
+                }
+            })
+            //////////////////////////////删除角色 end
+
+            ///////////////////////过滤角色
+            $("#searchRole").bind('input propertychange',function(){
+                var namePar = $('#searchRole').val();
+                //var data= $table.bootstrapTable('getData');
+               
+                var arr=datas.filter(function(ele,index){
+                    return ele.RoleName.startsWith(namePar);
+                });
+                var arr1=[];
+                for (var i = 0; i < arr.length; i++) {
+                    arr1[i]=arr[i].RoleName
+                }
+                $table.bootstrapTable('filterBy', {
+                    RoleName: arr1
+                });
+            });
+
+         
+            ///////////////////////过滤角色 end
+        });
+        $('#editActionInfo').click(function () {
+            var roleId = $('#editid').val();
+            window.location.href = '../ActionInfo/Index?id=' + roleId;
+            @*window.location.href=@Url("Index", "ActionInfo", new { id = roleId });*@
+        });
+    </script>
+}

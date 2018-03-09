@@ -1,0 +1,9 @@
+F:\doing\ZZU.JCZD\ZZU.JCZD.Common\bin\Release\ZZU.JCZD.Common.dll
+F:\doing\ZZU.JCZD\ZZU.JCZD.Common\bin\Release\ZZU.JCZD.Common.pdb
+F:\doing\ZZU.JCZD\ZZU.JCZD.Common\bin\Release\Commons.dll
+F:\doing\ZZU.JCZD\ZZU.JCZD.Common\bin\Release\ICSharpCode.SharpZipLib.dll
+F:\doing\ZZU.JCZD\ZZU.JCZD.Common\bin\Release\log4net.dll
+F:\doing\ZZU.JCZD\ZZU.JCZD.Common\bin\Release\Memcached.ClientLibrary.dll
+F:\doing\ZZU.JCZD\ZZU.JCZD.Common\bin\Release\Memcached.ClientLibrary.pdb
+F:\doing\ZZU.JCZD\ZZU.JCZD.Common\obj\Release\ZZU.JCZD.Common.dll
+F:\doing\ZZU.JCZD\ZZU.JCZD.Common\obj\Release\ZZU.JCZD.Common.pdb

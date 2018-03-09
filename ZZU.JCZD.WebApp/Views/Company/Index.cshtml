@@ -1,0 +1,410 @@
+﻿@{
+    ViewBag.Title = "公司管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    @*///////////////////////////导航栏*@
+    <div id="mynav" class="row">
+        @*每个页的页头*@
+        @*页头结束*@
+        @*页内导航*@
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home"></i>
+                <a href="javascirpt:void(0)">主页</a>
+                <i class="icon-angle-right"></i>
+            </li>
+            <li>
+                <a href="javascirpt:void(0)">系统管理</a>
+                <i class="icon-angle-right"></i>
+            </li>
+            <li><a href="javascirpt:void(0)">公司管理</a></li>
+        </ul>
+        @*页内导航结束*@
+    </div>
+
+    <div class="row" id="mypage">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div>
+                <!--公司列表-->
+                <div class="x_content">
+                    <div id="toolbar">
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <div class="btn-group col-sm-12">
+                                    <button id="btn_addcompany" type="button" class="btn btn-success" data-toggle="modal" data-target="#myaddModal">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+                                    </button>
+                                    <button id="btn_editcompany" type="button" class="btn btn-info" data-toggle="modal" data-target="#myeditModal">
+                                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
+                                    </button>
+                                    <button id="btn_deletecompany" type="button" class="btn btn-danger">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+                                    </button>
+                                </div>
+                            </div>
+                            
+                        </form>
+                    </div>
+                    <table id="table"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 添加公司的modal -->
+<div class="modal fade" id="myaddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">添加公司</h4>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-horizontal form-label-left center-block" id="addCompanyForm">
+                    <div class="item form-group">
+                        <label class="control-label  col-md-3 col-sm-3 col-xs-12" for="companyname">
+                            公司名称  <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <input id="companyname" class="form-control col-md-7 col-xs-12" name="companyname" placeholder="请输入公司名称" type="text">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label  col-md-3 col-sm-3 col-xs-12" for="companyaddress">
+                            公司地址  <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <input id="companyaddress" class="form-control col-md-7 col-xs-12" name="companyaddress" placeholder="请输入公司地址" type="text">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label  col-md-3 col-sm-3 col-xs-12" for="companyemail">
+                            公司邮箱  <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <input id="companyemail" class="form-control col-md-7 col-xs-12" name="companyemail" placeholder="请输入公司邮箱" type="text">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label  col-md-3 col-sm-3 col-xs-12" for="companyurl">
+                            公司网址  <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <input id="companyurl" class="form-control col-md-7 col-xs-12" name="companyurl" placeholder="请输入公司网址" type="text">
+                        </div>
+                    </div>
+
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="detail">
+                            公司描述 <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <input id="detail" class="form-control col-md-7 col-xs-12" name="detail" placeholder="请输入公司描述" type="text">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" id="btn_add_company_model">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end 添加公司的modal -->
+<!-- 修改公司的modal -->
+<div class="modal fade" id="myeditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">修改角色</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal form-label-left" id="editCompanyForm">
+                    <div class="item form-group">
+                        <label class="control-label  col-md-3 col-sm-3 col-xs-12" for="editid">
+                            编号  <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <input id="editid" class="form-control col-md-7 col-xs-12" name="editid" type="text" readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label  col-md-3 col-sm-3 col-xs-12" for="editcompanyname">
+                            公司名称  <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <input id="editcompanyname" class="form-control col-md-7 col-xs-12" name="editcompanyname" placeholder="请输入公司名称" type="text">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label  col-md-3 col-sm-3 col-xs-12" for="editcompanyaddress">
+                            公司地址  <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <input id="editcompanyaddress" class="form-control col-md-7 col-xs-12" name="editcompanyaddress" placeholder="请输入公司地址" type="text">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label  col-md-3 col-sm-3 col-xs-12" for="editcompanyemail">
+                            公司邮箱  <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <input id="editcompanyemail" class="form-control col-md-7 col-xs-12" name="editcompanyemail" placeholder="请输入公司邮箱" type="text">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label  col-md-3 col-sm-3 col-xs-12" for="editcompanyurl">
+                            公司网址  <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <input id="editcompanyurl" class="form-control col-md-7 col-xs-12" name="editcompanyurl" placeholder="请输入公司邮箱" type="text">
+                        </div>
+                    </div>
+
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="editdetail">
+                            公司描述 <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <input id="editdetail" class="form-control col-md-7 col-xs-12" name="editdetail" placeholder="请输入公司描述" type="text">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" id="btn_edit_company_model">修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!--end 修改公司的modal -->
+@section scripts{
+
+    <script>
+        $(function () {
+            $(function () {
+                $('#table').bootstrapTable({
+                    url: '../Company/GetCompanys',       //请求后台的URL（*）
+                    method: 'post',                      //请求方式（*）
+                    toolbar: '#toolbar',                //工具按钮用哪个容器
+                    //striped: true,                      //是否显示行间隔色
+                    cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                    pagination: true,                   //是否显示分页（*）
+                    sortable: false,                     //是否启用排序
+                    sortOrder: "asc",                   //排序方式
+                    //queryParams: oTableInit.queryParams,//传递参数（*）
+                    sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                    pageNumber: 1,                       //初始化加载第一页，默认第一页
+                    pageSize: 10,                       //每页的记录行数（*）
+                    pageList: [5, 10, 15, 20],        //可供选择的每页的行数（*）
+                    search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                    strictSearch: true,
+                    showColumns: false,                  //是否显示所有的列
+                    showRefresh: false,                  //是否显示刷新按钮
+                    minimumCountColumns: 2,             //最少允许的列数
+                    clickToSelect: true,                //是否启用点击选中行
+                    height: 570,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                    uniqueId: "Id",                     //每一行的唯一标识，一般为主键列
+                    showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+                    cardView: false,                    //是否显示详细视图
+                    detailView: false,                   //是否显示父子表
+                    columns: [{
+                        checkbox: true
+                    }, {
+                        field: 'CompName',
+                        title: '公司名称'
+                    }
+                    , {
+                        field: 'Address',
+                        title: '公司地址'
+                    },
+                      {
+                          field: 'CompEmail',
+                          title: '公司邮箱'
+                      },
+                       {
+                           field: 'CompUrl',
+                           title: '公司网址'
+                       },
+                    {
+                        field: 'Detail',
+                        title: '描述'
+                    }
+                    ]
+                });
+            })
+
+            var $table = $('#table');
+
+
+            var $btndeletecompany = $('#btn_deletecompany');
+
+            //////////////////////////////添加公司
+            var $btnAddCompanyModel = $('#btn_add_company_model');
+            //表单验证的方法
+            function valAddContent() {
+                return $("#addCompanyForm").validate({
+                    rules: {
+                        companyname: {
+                            required: true,
+                            minlength: 3,
+                            maxlength: 20
+                        }, companyaddress: {
+                            required: true,
+                        }, companyemail: {
+                            required: true,
+                            email: true
+                        }, companyurl: {
+                            required: true,
+                            url: true
+                        }
+
+                    }
+                }).form();
+            }
+
+            //点击按钮添加公司
+            $btnAddCompanyModel.click(function () {
+                var companyname = $('#companyname').val();
+                var companyaddress = $('#companyaddress').val();
+                var companyemail = $('#companyemail').val();
+                var companyurl = $('#companyurl').val();
+                var detail = $('#detail').val();
+                if (valAddContent()) {
+                    $.post("../Company/AddCompany", { companyname: companyname, companyaddress: companyaddress, companyemail: companyemail, companyurl: companyurl, detail: detail }, function (res) {
+                        if (res === 'ok') {
+                            $("#myaddModal").modal('toggle');
+                            alert('添加成功');
+                            $table.bootstrapTable('refresh');
+                        }
+                        else {
+                            alert('添加失败');
+                        }
+                    });
+                }
+            });
+            //////////////////////////////添加公司 end
+
+            //////////////////////////////修改公司
+            //点击修改弹出motel，展示公司信息
+            var $btnEditCompany = $('#btn_editcompany');
+            $btnEditCompany.click(function () {
+                var company = $table.bootstrapTable('getAllSelections');
+                if (company.length === 0) {
+                    alert('请选择要修改的角色');
+                    return false;
+                }
+                else {
+                    $('#editid').val(company[0].Id);
+                    $('#editcompanyname').val(company[0].CompName);
+                    $('#editcompanyaddress').val(company[0].Address);
+                    $('#editcompanyemail').val(company[0].CompEmail);
+                    $('#editcompanyurl').val(company[0].CompUrl);
+                    $('#editdetail').val(company[0].Detail);
+                }
+
+            })
+
+
+            //修改公司信息
+            var $btnEditCompanyModel = $('#btn_edit_company_model');
+
+            function valEditContent() {
+                return $("#editCompanyForm").validate({
+                    rules: {
+                        editcompanyname: {
+                            required: true,
+                            minlength: 3,
+                            maxlength: 20
+                        }, editcompanyaddress: {
+                            required: true,
+                        }, editcompanyemail: {
+                            required: true,
+                            email: true
+                        }, editcompanyurl: {
+                            required: true,
+                            url: true
+                        }
+
+                    }
+
+                }).form();
+            }
+
+            //--------------hererererererererererer
+            $btnEditCompanyModel.click(function () {
+                if (valEditContent()) {
+                    var id = $('#editid').val();
+                    var companyname = $('#editcompanyname').val();
+                    var companyaddress = $('#editcompanyaddress').val();
+                    var companyemail = $('#editcompanyemail').val();
+                    var companyurl = $('#editcompanyurl').val();
+                    var detail = $('#editdetail').val();
+                    $.post("../Company/EditCompany", { companyname: companyname, companyaddress: companyaddress, companyemail: companyemail, companyurl: companyurl, detail: detail, id: id }, function (res) {
+                        if (res === 'ok') {
+                            //$(".alert").alert('close')
+                            $("#myeditModal").modal('toggle');
+                            alert('修改成功');
+                            $table.bootstrapTable('refresh');
+                        }
+                        else if (res === 'no') {
+                            alert('修改失败');
+                        } else if (res === 'noedit') {
+                            alert('无修改！')
+                        }
+                    });
+                }
+            });
+            //////////////////////////////修改公司 end
+            //////////////////////////////删除公司
+            var $btnDeleteCompany = $('#btn_deletecompany');
+            $btnDeleteCompany.click(function () {
+                var companys = $table.bootstrapTable('getAllSelections');
+                if (companys.length === 0) {
+                    alert('请选择要删除的角色');
+                    return false;
+                } else {
+                    if (!confirm("确定删除这些数据吗？")) {
+                        return false;
+                    } else {
+                        var idArr = [];
+                        for (var i = 0; i < companys.length; i++) {
+                            idArr.push(companys[i].Id);
+                        }
+                        $.post("../Company/Deletecompanys", { ids: idArr.join(',') }, function (res) {
+
+                            if (res === 'ok') {
+                                $(".alert").alert('close')
+                                alert('删除成功');
+                                $table.bootstrapTable('refresh');
+                            }
+                            else {
+                                alert('删除失败');
+                            }
+                        });
+                    }
+                }
+            })
+            //////////////////////////////删除公司 end
+
+            ///////////////////////过滤角色
+
+            //$('#searchRole').input(function () {
+            //    var namePar = $(this).val();
+            //    $table.bootstrapTable('filterBy', {
+            //        RoleName: [namePar]
+            //    });
+            //})
+            ///////////////////////过滤角色 end
+        });
+    </script>
+}

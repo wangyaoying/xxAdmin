@@ -1,0 +1,552 @@
+﻿@{
+    ViewBag.Title = "用户管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    @*///////////////////////////导航栏*@
+    <div id="mynav" class="row">
+        @*每个页的页头*@
+        @*页头结束*@
+        @*页内导航*@
+        <ul class="breadcrumb">
+            <li>
+                <i class="icon-home"></i>
+                <a href="javascirpt:void(0)">主页</a>
+                <i class="icon-angle-right"></i>
+            </li>
+            <li>
+                <a href="javascirpt:void(0)">系统管理</a>
+                <i class="icon-angle-right"></i>
+            </li>
+            <li><a href="javascirpt:void(0)">用户管理</a></li>
+        </ul>
+        @*页内导航结束*@
+    </div>
+
+    <div class="row" id="mypage">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div>
+                <!--用户列表-->
+                <div class='x_content'>
+                    <div id="toolbar">
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <div class="btn-group col-sm-12">
+                                    <button id="btn_adduser" type="button" class="btn btn-success" data-toggle="modal" data-target="#myaddModal">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+                                    </button>
+                                    <button id="btn_edituser" type="button" class="btn btn-info" data-toggle="modal" data-target="#myeditModal">
+                                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
+                                    </button>
+                                    <button id="btn_deleteuser" type="button" class="btn btn-danger">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="searchUserName">筛选</label>
+                                <input type="text" class="form-control" id="searchUserName" placeholder="用户名">
+                            </div>
+                        </form>
+                    </div>
+                    <table id="table"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 添加用户的modal -->
+<div class="modal fade" id="myaddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">添加用户</h4>
+            </div>
+
+            <div class="modal-body">
+                <form class='form-horizontal form-label-left center-block' id="addUserForm">
+                    <div class="item form-group">
+                        <label class="control-label  col-md-3 col-sm-3 col-xs-12" for="username">
+                            用户名  <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <input id="username" class="form-control col-md-7 col-xs-12" name="username" placeholder="请输入用户名" type="text">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="realname">
+                            真实姓名 <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <input id="realname" class="form-control col-md-7 col-xs-12" name="realname" placeholder="请输入姓名" type="text">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="phone">
+                            手机号 <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <input id="phone" class="form-control col-md-7 col-xs-12" name="phone" placeholder="请输入手机号" type="text">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="company">
+                            公司 <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <select id="company" class="form-control col-md-7 col-xs-12">
+                                @{
+                                    var compList = ViewBag.CompList;
+                                    foreach (ZZU.JCZD.Model.Company item in compList)
+                                    {
+                                        <option value="@item.Id">@item.CompName</option>
+                                    }
+                                }
+
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="detail">
+                            备注 <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <input id="detail" class="form-control col-md-7 col-xs-12" name="detail" placeholder="请输入备注信息" type="text">
+                        </div>
+                    </div>
+
+
+                    @*/////////////////////////// ！！！！！！！！！！！！！！！！！！！！！！！！！！*@
+                    @*/////////////////////////// ！！！！！！！！！！！！！！！！！！！！！！！！！！*@
+                    @*/////////////////////////// ！！！！！！！！！！！！！！！！！！！！！！！！！！*@
+                    @*/////////////////////////// ！！！！！！！！！！！！！！！！！！！！！！！！！！*@
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="role">
+                            角色 <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <select id="role" class="form-control col-md-7 col-xs-12">
+                                @{
+                                    var roleList = (List<ZZU.JCZD.Model.Role>)ViewBag.RoleList;
+                                    foreach (ZZU.JCZD.Model.Role item in roleList)
+                                    {
+                                        <option value="@item.Id">@item.RoleName</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="userpass">
+                            密码 <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <input id="userpass" class="form-control col-md-7 col-xs-12" name="userpass" placeholder="请输入密码" type="text">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="conformpass">
+                            确认密码 <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <input id="conformpass" class="form-control col-md-7 col-xs-12" name="conformpass" placeholder="请确认密码" type="text">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" id="btn_add_user_model">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end 添加用户的modal -->
+<!-- 修改用户的modal -->
+<div class="modal fade" id="myeditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">修改用户</h4>
+            </div>
+
+
+            <div class="modal-body">
+                <form class="form-horizontal form-label-left" id="editUserForm">
+                    <div class="item form-group">
+                        <label class="control-label  col-md-3 col-sm-3 col-xs-12" for="editid">
+                            编号  <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <input id="editid" class="form-control col-md-7 col-xs-12" name="editid" type="text" readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label  col-md-3 col-sm-3 col-xs-12" for="editusername">
+                            用户名  <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <input id="editusername" class="form-control col-md-7 col-xs-12" name="editusername" type="text" readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="editrealname">
+                            真实姓名 <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <input id="editrealname" class="form-control col-md-7 col-xs-12" name="editrealname" type="text">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="editphone">
+                            手机号 <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <input id="editphone" class="form-control col-md-7 col-xs-12" name="editphone" type="text">
+                        </div>
+                    </div>
+
+
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="editdetail">
+                            备注 <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <input id="editdetail" class="form-control col-md-7 col-xs-12" name="editdetail" type="text">
+                        </div>
+                    </div>
+
+
+                    @*/////////////////////////// ！！！！！！！！！！！！！！！！！！！！！！！！！！*@
+                    @*/////////////////////////// ！！！！！！！！！！！！！！！！！！！！！！！！！！*@
+                    @*/////////////////////////// ！！！！！！！！！！！！！！！！！！！！！！！！！！*@
+                    @*/////////////////////////// ！！！！！！！！！！！！！！！！！！！！！！！！！！*@
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="editrole">
+                            角色 <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <select id="editrole" class="form-control col-md-7 col-xs-12">
+                                @{
+
+                                    foreach (ZZU.JCZD.Model.Role item in roleList)
+                                    {
+                                        <option value="@item.Id">@item.RoleName</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="edituserpass">
+                            密码 <span>*</span>
+                        </label>
+                        <div class="col-md-5 col-sm-6 col-xs-12">
+                            <input id="edituserpass" class="form-control col-md-7 col-xs-12" name="edituserpass" type="text">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" id="btn_edit_user_model">修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!--end 修改用户的modal -->
+@section scripts{
+
+    <script>
+        //加载用户列表
+        $(function () {
+            var datas = [];
+            $.post('../UserInfo/GetUserInfo', {}, function (data) {
+                datas = data;
+            })
+            $('#table').bootstrapTable({
+                url: '../UserInfo/GetUserInfo',       //请求后台的URL（*）
+                method: 'post',                      //请求方式（*）
+                toolbar: '#toolbar',                //工具按钮用哪个容器
+                //striped: true,                      //是否显示行间隔色
+                cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true,                   //是否显示分页（*）
+                sortable: false,                     //是否启用排序
+                sortOrder: "asc",                   //排序方式
+                //queryParams: oTableInit.queryParams,//传递参数（*）
+                sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                       //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+                search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                strictSearch: true,
+                showColumns: false,                  //是否显示所有的列
+                showRefresh: false,                  //是否显示刷新按钮
+                minimumCountColumns: 2,             //最少允许的列数
+                clickToSelect: true,                //是否启用点击选中行
+                height: 570,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                uniqueId: "Id",                     //每一行的唯一标识，一般为主键列
+                showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                    //是否显示详细视图
+                detailView: false,                   //是否显示父子表
+
+                columns: [{
+                    checkbox: true
+                }, {
+                    field: 'UserName',
+                    title: '用户名'
+                }, {
+                    field: 'RealName',
+                    title: '姓名'
+                }, {
+                    field: 'Phone',
+                    title: '手机号'
+                }, {
+                    field: 'Role',
+                    title: '角色'
+                }, {
+                    field: 'Comp',
+                    title: '公司'
+                },
+
+                {
+                    field: 'Detail',
+                    title: '描述'
+                },
+                ]
+            });
+
+            var $table = $('#table');
+
+
+            var $btndeleteuser = $('#btn_deleteuser');
+
+            //////////////////////////////添加用户
+            var $btnAddUserModel = $('#btn_add_user_model');
+            //表单验证的方法
+            function valAddContent() {
+                return $("#addUserForm").validate({
+
+                    rules: {
+                        username: {
+                            required: true,
+                            minlength: 1,
+                            maxlength: 8
+                        },
+                        realname: {
+                            required: true,
+                            minlength: 2,
+                            maxlength: 8
+                        },
+                        role: {
+                            required: true,
+
+                        }, company: {
+                            required: true,
+                        },
+                        userpass: {
+                            required: true,
+                            minlength: 5,
+                            maxlength: 14
+                        },
+                        conformpass: {
+                            required: true,
+                            minlength: 5,
+                            maxlength: 14,
+                            equalTo: "#userpass"
+                        }
+                    },
+                }).form();
+            }
+
+            $('#company').val(@ViewBag.compId);
+            $('#company').attr('disabled', true);
+            //点击按钮添加用户
+            $btnAddUserModel.click(function () {
+                var username = $('#username').val();
+                var userpass = $('#userpass').val();
+                var detail = $('#detail').val();
+                var phone = $('#phone').val();
+                var compid = $('#company').val();
+                var roleid = $('#role').val();
+                var realname = $('#realname').val();
+
+                if (valAddContent()) {
+                    $.post("../UserInfo/AddUser", { name: username, pass: userpass, detail: detail, phone: phone, compid: compid, roleid: roleid, realname: realname }, function (res) {
+                        if (res === 'ok') {
+                            $("#myaddModal").modal('toggle');
+                            alert('添加成功');
+                            $table.bootstrapTable('refresh');
+                        }
+                        else if (res === 'ex') {
+                            alert('用户名已被占用');
+                        } else {
+                            alert('添加失败');
+
+                        }
+                    });
+                }
+            });
+            //////////////////////////////添加用户 end
+
+            //////////////////////////////修改用户
+            //点击修改弹出motel，展示用户信息
+            var $btnEditUser = $('#btn_edituser');
+            $btnEditUser.click(function () {
+                var user = $table.bootstrapTable('getAllSelections');
+                if (user.length === 0) {
+                    alert('请选择要修改的用户');
+                    return false;
+                }
+                else {
+                    $('#editid').val(user[0].Id);
+                    $('#editusername').val(user[0].UserName);
+                    $('#editrealname').val(user[0].RealName);
+                    $('#editphone').val(user[0].Phone);
+                    $('#editdetail').val(user[0].Detail);
+                    $('#editrole').val(user[0].RoleId);
+                    $('#edituserpass').val('在这里输入修改密码');
+
+                }
+
+            })
+
+
+            //修改用户信息
+            var $btnEditUserModel = $('#btn_edit_user_model');
+
+            function valEditContent() {
+                return $("#editUserForm").validate({
+                    rules: {
+                        editusername: {
+                            required: true,
+                            minlength: 1,
+                            maxlength: 8
+                        },
+                        editrealname: {
+                            required: true,
+                            minlength: 2,
+                            maxlength: 8
+                        },
+                        editrole: {
+                            required: true,
+                        },
+                        edituserpass: {
+                            required: true,
+                            minlength: 5,
+                            maxlength: 14
+                        }
+
+                    },
+                    messages: {
+                        username: {
+                            required: "请输入用户名",
+                            minlength: "用户名必需由两个字母组成"
+                        },
+                        userpass: {
+                            required: "请输入密码",
+                            minlength: "密码长度不能小于 5 个字母"
+                        },
+                        conformpass: {
+                            required: "请输入密码",
+                            minlength: "密码长度不能小于 5 个字母",
+                            equalTo: "两次密码输入不一致"
+                        },
+                    }
+                }).form();
+            }
+
+            //--------------hererererererererererer
+            $btnEditUserModel.click(function () {
+                if (valEditContent()) {
+
+                    var username = $('#editusername').val();
+                    var realname = $('#editrealname').val();
+                    var userpass = $('#edituserpass').val();
+                    var id = $('#editid').val();
+                    var phone = $('#editphone').val();
+                    var detail = $('#editdetail').val();
+                    var roleid = $('#editrole').val();
+                    //console.log(pass + name + id);
+                    $.post("../UserInfo/EditUser", { roleid: roleid, username: username, realname: realname, phone: phone, detail: detail, id: id, userpass: userpass }, function (res) {
+                        if (res === 'ok') {
+                            //$(".alert").alert('close')
+                            $("#myeditModal").modal('toggle');
+                            alert('修改成功');
+                            $table.bootstrapTable('refresh');
+                        }
+                        else {
+                            alert('修改失败');
+                        }
+                    });
+                }
+            });
+            //////////////////////////////修改用户 end
+            //////////////////////////////删除用户
+            var $btnDeleteUser = $('#btn_deleteuser');
+            $btnDeleteUser.click(function () {
+                var users = $table.bootstrapTable('getAllSelections');
+                if (users.length === 0) {
+                    alert('请选择要删除的用户');
+                    return false;
+                } else {
+                    if (!confirm("确定删除这些数据吗？")) {
+                        return false;
+                    } else {
+                        var idArr = [];
+                        for (var i = 0; i < users.length; i++) {
+                            idArr.push(users[i].Id);
+                        }
+                        console.log(users);
+                        console.log(idArr.join(','));
+                        $.post("../UserInfo/DeleteUsers", { ids: idArr.join(',') }, function (res) {
+
+                            if (res === 'ok') {
+                                $(".alert").alert('close')
+                                alert('删除成功');
+                                $table.bootstrapTable('refresh');
+                            }
+                            else {
+                                alert('删除失败');
+                            }
+                        });
+                    }
+                }
+            })
+            //////////////////////////////删除用户 end
+
+            ///////////////////////过滤用户
+            $("#searchUserName").bind('input propertychange', function () {
+                var namePar = $('#searchUserName').val();
+                //var data= $table.bootstrapTable('getData');
+
+                var arr = datas.filter(function (ele, index) {
+                    return ele.UserName.startsWith(namePar);
+                });
+                var arr1 = [];
+                for (var i = 0; i < arr.length; i++) {
+                    arr1[i] = arr[i].RoleName
+                }
+                $table.bootstrapTable('filterBy', {
+                    RoleName: arr1
+                });
+            })
+            ///////////////////////过滤用户 end
+        });
+    </script>
+}
